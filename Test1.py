@@ -1,5 +1,6 @@
 from bundleHandler import *
 import math
+import random
 
 class Space:
     def __init__(self, x, y, z, D, r):
@@ -8,14 +9,29 @@ class Space:
         self.z = z
         self.D = D
         self.r = r
+
+        self.centers = []
+        for i in range(D):
+            x_float = np.float32(random.uniform(0, x))
+            y_float = np.float32(random.uniform(0, y))
+            z_float = np.float32(random.uniform(0, z))
+            self.centers.append([x_float,y_float,z_float])
+        
+        self.centers = np.reshape(self.centers, (self.D, 3))
+
+
+
     
-    def get_coord(self, coord_type):
+    def getCoord(self, coord_type):
         if coord_type == 'x':
             return self.x
         elif coord_type == 'y':
             return self.y
         elif coord_type == 'z':
             return self.z
+        
+    def getCenters(self):
+        return self.centers
 
 
 def main():
@@ -23,8 +39,12 @@ def main():
 
     space = Space(*maxValues(data), 10, 10)
 
-    print(space.get_coord('x'))
-   
+    print(space.getCoord('x'))
+
+    C = space.getCenters()
+    print(C)
+
+
 
 
 main()
