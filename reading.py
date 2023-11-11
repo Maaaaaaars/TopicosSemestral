@@ -8,9 +8,3 @@ def read_bundlesdata(filename):
     A = np.fromfile(filename, dtype=np.float32)
     B = A.reshape(-1, 64)[:, 1:].reshape(-1, 21, 3)
     return B
-
-
-
-
-
-
