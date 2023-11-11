@@ -24,3 +24,6 @@ def maxValues(data):
     max_y = math.ceil(max_y / 10.0) * 10
     max_z = math.ceil(max_z / 10.0) * 10
     return max_x, max_y, max_z
+
+def getTotalFibers(data):
+    return data.shape[0]

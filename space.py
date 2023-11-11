@@ -2,6 +2,8 @@ from bundleHandler import *
 import math
 import random
 
+random.seed(0)
+
 class Space:
     def __init__(self, x, y, z, D, r):
         self.x = x
