@@ -19,9 +19,6 @@ class Space:
         
         self.centers = np.reshape(self.centers, (self.D, 3))
 
-
-
-    
     def getCoord(self, coord_type):
         if coord_type == 'x':
             return self.x
@@ -34,20 +31,7 @@ class Space:
         return self.centers
 
 
-def main():
-    data = read_bundlesdata('sub7.bundlesdata')
 
-    space = Space(*maxValues(data), 10, 10)
-
-    print(space.getCoord('x'))
-
-    C = space.getCenters()
-    print(C)
-
-
-
-
-main()
 
 
     
