@@ -25,5 +25,10 @@ def maxValues(data):
     max_z = math.ceil(max_z / 10.0) * 10
     return max_x, max_y, max_z
 
+def maxCoord(data):
+    maxC = np.amax(data)
+    maxC = math.ceil(maxC / 10.0) * 10
+    return maxC
+
 def getTotalFibers(data):
     return data.shape[0]
