@@ -6,8 +6,8 @@ from tester import *
 
 def main():
     data = read_bundlesdata('sub7.bundlesdata')
-    radio = 10
-    esferas = 10
+    radio = 20
+    esferas = 100
     centers = createCenters(esferas, data)
     totalFibers = getTotalFibers(data) 
 
@@ -21,17 +21,10 @@ def main():
 
     hilbertCenters = sorted(enumerate(hilbertCenters), key=lambda x: x[1])
 
-    '''
-    print(centers)
-    print('')
-    print(hilbertCenters)
-    print('')   
-    '''
-
     matrix = np.zeros((totalFibers, esferas))
 
     start_time = time.process_time()
-    for k in range (totalFibers // 2):
+    for k in range (totalFibers):
         for i in range (21):
             hilberted = hilbert_curve.distance_from_point(data[k][i])
             low = 0
@@ -54,9 +47,10 @@ def main():
     end_time = time.process_time()
     print(end_time - start_time)
     print('')
-    positions = np.where(matrix == 1)
-    first_position = positions[0][0], positions[1][0]
-    print(f"The first occurrence of 1 is at position {first_position}")
+    print(matrix)
+    num_ones = np.count_nonzero(matrix == 1)
+
+    print(f"There are {num_ones} ones in the matrix")
 
 
             
