@@ -1,28 +1,16 @@
 import time
+import sys
 from bundleHandler import *
 from tester import *
-
-def nearestQeury(fiber, bitVector):
-    origin = bitVector[fiber]
-    minNorm = float('inf')
-    nearest = 0
-    for i in bitVector.shape[1]:
-        if i != fiber:
-            binary_diff = np.abs(origin - bitVector[i])
-            norm = np.linalg.norm(binary_diff)
-            if norm < minNorm:
-                minNorm = norm
-                nearest = i
-    return nearest
+from queries import *
 
 
-
-def main():
+def main(args):
     data = read_bundlesdata('sub7.bundlesdata')
-    radio = 20
-    esferas = 100
+    esferas = args[1]
+    radio = args[2]
     centers = createCenters(esferas, data)
-    totalFibers = 10
+    totalFibers = getTotalFibers(data)
 
     p = math.ceil(math.log(maxCoord(data), 2))
     
