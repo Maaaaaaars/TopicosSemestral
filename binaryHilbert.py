@@ -22,7 +22,7 @@ def main():
 
     hilbertCenters = sorted(enumerate(hilbertCenters), key=lambda x: x[1])
 
-    matrix = np.zeros((totalFibers, esferas))
+    bitMatrix = np.zeros((totalFibers, esferas))
 
     start_time = time.process_time()
     for k in range (totalFibers):
@@ -44,11 +44,10 @@ def main():
             cFromHilbert = hilbert_curve.point_from_distance(hilbertCenters[last][1])
             distance = np.linalg.norm(np.array(cFromHilbert) - np.array(data[k][i]))
             if distance <= radio:
-                matrix[k][hilbertCenters[last][0]] = 1
+                bitMatrix[k][hilbertCenters[last][0]] = 1
     end_time = time.process_time()
     print(end_time - start_time)
-    print(matrix.shape)
-    
-
+    np.savetxt("binaryHilbert.txt", bitMatrix, fmt="%d")
+    print(bitMatrix)
 
 main()

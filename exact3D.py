@@ -2,13 +2,13 @@ import time
 import sys
 from bundleHandler import *
 from tester import *
-from queries import *
+from queriesHandler import *
 
 
-def main(args):
+def main():
     data = read_bundlesdata('sub7.bundlesdata')
-    esferas = args[1]
-    radio = args[2]
+    esferas = int(sys.argv)[1]
+    radio = float(sys.argv)[2]
     centers = createCenters(esferas, data)
     totalFibers = getTotalFibers(data)
 
@@ -29,3 +29,5 @@ def main(args):
     print(end_time - start_time)
     np.savetxt("exact3D.txt", bitMatrix, fmt="%d")
     print(bitMatrix)
+
+main()

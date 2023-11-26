@@ -2,9 +2,10 @@ from hilbertcurve.hilbertcurve import HilbertCurve
 import numpy as np
 
 class Tester:
-    def __init__(self,centers,radio):
+    def __init__(self,centers,radio,maxCoord):
         self.center = centers
         self.radius = radio
+        self.maxCoord = maxCoord
 
     def testSpecificCenter(self, pos, hilbert_curve, number_points, prints, returnValues):
         num_points = number_points
@@ -18,12 +19,16 @@ class Tester:
         y = self.center[pos][1] + (self.radius * np.sin(phi) * np.sin(theta))
         z = self.center[pos][2] + (self.radius * np.cos(phi))
 
+        x = np.clip(x, 0, self.maxCoord)
+        y = np.clip(y, 0, self.maxCoord)
+        z = np.clip(z, 0, self.maxCoord)
+
         # Combine x, y, z to a list of points
         points = np.vstack([x, y, z]).T
 
         if prints:
             # Print 3d coord of the center of the sphere and the points on the sphere
-            print('The coord is: ', self.center[i], ' and the points are: ')
+            print('The coord is: ', self.center[pos], ' and the points are: ')
             print(points)
 
 
@@ -43,19 +48,16 @@ class Tester:
 
         diff = maxH - minH
 
-        print('Average distance in Hilbert space is ', sum/num_points)
-        print('Max distance in Hilbert space is ', maxH)
-        print('Min distance in Hilbert space is ', minH)
-        print('Range is ', diff)
-        print(' ')
-
         if returnValues:
             return sum/num_points, maxH, minH, diff
 
 
     def testAllCenters(self, hilbert_curve, number_points, prints, returnValues):
         num_points = number_points
-
+        result = []
+    
         for i in range(len(self.center)):
-            self.testSpecificCenter(i, hilbert_curve, num_points, prints, returnValues)
+            diff = self.testSpecificCenter(i, hilbert_curve, num_points, prints, returnValues)
+            result.append(diff)
 
+        return result

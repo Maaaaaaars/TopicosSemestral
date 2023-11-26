@@ -6,9 +6,15 @@ from queriesHandler import *
 
 
 def main():
+
     data = read_bundlesdata('sub7.bundlesdata')
-    esferas = int(sys.argv)[1]
-    radio = float(sys.argv)[2]
+    
+    esferas = int(sys.argv[1])
+    radio = float(sys.argv[2])
+    iterations = int(sys.argv[3])
+    iterationPoints = int(sys.argv[4])
+
+
     centers = createCenters(esferas, data)
     totalFibers = getTotalFibers(data)
 
@@ -24,6 +30,19 @@ def main():
 
     matrix = np.zeros((totalFibers, esferas))
 
+    tester = Tester(centers, radio, maxCoord(data))
+
+    ranges = []
+    for i in range(esferas):
+        average = 0
+        for j in range(iterations):
+            average += tester.testSpecificCenter(i, hilbert_curve, iterationPoints, False, True)[3]
+        
+        average = average / iterations
+        ranges.append(average)
+
+    print(ranges)
+        
     start_time = time.process_time()
     for k in range (totalFibers):
         for i in range (21):
@@ -48,7 +67,5 @@ def main():
     end_time = time.process_time()
     print(end_time - start_time)
     print(matrix.shape)
-    
-
 
 main()
