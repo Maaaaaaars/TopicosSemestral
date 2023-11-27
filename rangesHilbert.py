@@ -41,31 +41,19 @@ def main():
         average = average / iterations
         ranges.append(average)
 
-    print(ranges)
-        
+
     start_time = time.process_time()
     for k in range (totalFibers):
         for i in range (21):
             hilberted = hilbert_curve.distance_from_point(data[k][i])
-            low = 0
-            high = esferas - 1
-            last = None
-            while low <= high:
-                mid = (low + high) // 2
-                last = mid
-                if hilbertCenters[mid][1] < hilberted:
-                    low = mid + 1
-                elif hilbertCenters[mid][1] > hilberted:
-                    high = mid - 1
-                elif hilbertCenters[mid][1] == hilberted:
-                    break
-            
-            cFromHilbert = hilbert_curve.point_from_distance(hilbertCenters[last][1])
-            distance = np.linalg.norm(np.array(cFromHilbert) - np.array(data[k][i]))
-            if distance <= radio:
-                matrix[k][hilbertCenters[last][0]] = 1
+            for j in range (len(centers)):
+                if(abs(hilbertCenters[j][1] - hilberted) <= ranges[j]):
+                    cFromHilbert = hilbert_curve.point_from_distance(hilbertCenters[j][1])
+                    distance = np.linalg.norm(np.array(cFromHilbert) - np.array(data[k][i]))
+                    if distance <= radio:
+                        matrix[k][j] = 1
     end_time = time.process_time()
     print(end_time - start_time)
-    print(matrix.shape)
-
+    print(matrix)
+    
 main()
