@@ -28,7 +28,7 @@ def main():
 
     hilbertCenters = sorted(enumerate(hilbertCenters), key=lambda x: x[1])
 
-    matrix = np.zeros((totalFibers, esferas))
+    bitMatrix = np.zeros((totalFibers, esferas))
 
     tester = Tester(centers, radio, maxCoord(data))
 
@@ -51,9 +51,10 @@ def main():
                     cFromHilbert = hilbert_curve.point_from_distance(hilbertCenters[j][1])
                     distance = np.linalg.norm(np.array(cFromHilbert) - np.array(data[k][i]))
                     if distance <= radio:
-                        matrix[k][j] = 1
+                        bitMatrix[k][j] = 1
     end_time = time.process_time()
     print(end_time - start_time)
-    print(matrix)
+    np.savetxt("rangesHilbert.txt", bitMatrix, fmt="%d")
+    print(bitMatrix)
     
 main()

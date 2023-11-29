@@ -4,7 +4,7 @@ def nearestQeury(fiber, bitVector):
     origin = bitVector[fiber]
     minNorm = float('inf')
     nearest = 0
-    for i in bitVector.shape[1]:
+    for i in range(len(bitVector)):
         if i != fiber:
             binary_diff = np.abs(origin - bitVector[i])
             norm = np.linalg.norm(binary_diff)
