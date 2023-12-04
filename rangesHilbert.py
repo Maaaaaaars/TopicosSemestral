@@ -54,7 +54,8 @@ def main():
                         bitMatrix[k][j] = 1
     end_time = time.process_time()
     print(end_time - start_time)
-    np.savetxt("rangesHilbert.txt", bitMatrix, fmt="%d")
+    nombre = "rangesHilbert" + '-' + str(esferas) + '-' + str(radio)+ ".txt"    
+    np.savetxt(nombre, bitMatrix, fmt="%d")
     print(bitMatrix)
     
 main()

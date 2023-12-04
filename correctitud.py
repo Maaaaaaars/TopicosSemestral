@@ -34,6 +34,9 @@ def main():
                 if distance <= radio:
                     bitMatrix[k][j] = 1
 
+
+    print(data)
+
     end_time = time.process_time()
     print(end_time - start_time)
     #np.savetxt("exact3D.txt", bitMatrix, fmt="%d")

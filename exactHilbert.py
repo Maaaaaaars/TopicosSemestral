@@ -7,8 +7,8 @@ from queriesHandler import *
 
 def main():
     data = read_bundlesdata('sub7.bundlesdata')
-    esferas = int(sys.argv)[1]
-    radio = float(sys.argv)[2]
+    esferas = int(sys.argv[1])
+    radio = float(sys.argv[2])
     centers = createCenters(esferas, data)
     totalFibers = getTotalFibers(data)
 
@@ -37,7 +37,7 @@ def main():
 
     end_time = time.process_time()
     print(end_time - start_time)
-    np.savetxt("exactHilbert.txt", bitMatrix, fmt="%d")
+    #np.savetxt("exactHilbert.txt", bitMatrix, fmt="%d")
     print(bitMatrix)
 
 main()
