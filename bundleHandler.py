@@ -1,9 +1,12 @@
 import numpy as np
 import math
+import random
 
 #Notas: El primer iterador va hasta  B-1
 #El segundo iterador va hasta 21
 #El tercer iterador va hasta 3
+
+random.seed(1)
 
 def read_bundlesdata(filename):
     A = np.fromfile(filename, dtype=np.float32)
@@ -25,5 +28,22 @@ def maxValues(data):
     max_z = math.ceil(max_z / 10.0) * 10
     return max_x, max_y, max_z
 
+def maxCoord(data):
+    maxC = np.amax(data)
+    maxC = math.ceil(maxC / 10.0) * 10
+    return maxC
+
 def getTotalFibers(data):
     return data.shape[0]
+
+def createCenters(amount, data):
+    ceil = maxCoord(data)
+    centers = []
+    for i in range(amount):
+        x_float = np.float32(random.uniform(0, ceil))
+        y_float = np.float32(random.uniform(0, ceil))
+        z_float = np.float32(random.uniform(0, ceil))
+        centers.append([x_float,y_float,z_float])
+
+    centers = np.reshape(centers, (amount, 3))
+    return centers
