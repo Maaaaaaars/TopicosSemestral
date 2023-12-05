@@ -5,14 +5,21 @@ from tester import *
 from queriesHandler import *
 
 
-def main():
+def rangesHilbert(esferas, radio, iterations, iterationPoints):
 
-    data = read_bundlesdata('sub7.bundlesdata')
-    
+    '''
     esferas = int(sys.argv[1])
     radio = float(sys.argv[2])
     iterations = int(sys.argv[3])
     iterationPoints = int(sys.argv[4])
+    '''
+
+    data = read_bundlesdata('sub7.bundlesdata')
+
+    esferas = esferas
+    radio = radio
+    iterations = iterations
+    iterationPoints = iterationPoints
 
 
     centers = createCenters(esferas, data)
@@ -53,9 +60,9 @@ def main():
                     if distance <= radio:
                         bitMatrix[k][j] = 1
     end_time = time.process_time()
-    print(end_time - start_time)
+    print('Tiempo rangeHilbert con ' + esferas + 'esferas de radio ' + radio + ': ' + end_time - start_time)
     nombre = "rangesHilbert" + '-' + str(esferas) + '-' + str(radio)+ ".txt"    
     np.savetxt(nombre, bitMatrix, fmt="%d")
-    print(bitMatrix)
+
+    return bitMatrix
     
-main()

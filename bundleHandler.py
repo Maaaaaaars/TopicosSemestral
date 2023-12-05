@@ -6,7 +6,7 @@ import random
 #El segundo iterador va hasta 21
 #El tercer iterador va hasta 3
 
-random.seed(1)
+#random.seed(1)
 
 def read_bundlesdata(filename):
     A = np.fromfile(filename, dtype=np.float32)
