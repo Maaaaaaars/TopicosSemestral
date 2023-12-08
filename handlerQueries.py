@@ -1,4 +1,4 @@
-from bundleHandler import *
+from handlerBundles import *
 
 def nearestQeury(fiber, bitMatrix):
     origin = bitMatrix[fiber]
@@ -19,4 +19,13 @@ def twoCenters(center1, center2, bitMatrix):
         if bitMatrix[i][center1] == 1 and bitMatrix[i][center2] == 1:
             fibers.append(i)
 
+    return fibers
+
+def sameSignature(fiber, bitMatrix):
+    origin = bitMatrix[fiber]
+    fibers = []
+    for i in range(len(bitMatrix)):
+        if i != fiber:
+            if np.array_equal(origin, bitMatrix[i]):
+                fibers.append(i)
     return fibers

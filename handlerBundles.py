@@ -2,15 +2,16 @@ import numpy as np
 import math
 import random
 
-#Notas: El primer iterador va hasta  B-1
-#El segundo iterador va hasta 21
-#El tercer iterador va hasta 3
+from hilbertcurve.hilbertcurve import HilbertCurve
 
-#random.seed(1)
+# Constants
+dimensions = 3
+points_per_fiber = 21
+
 
 def read_bundlesdata(filename):
     A = np.fromfile(filename, dtype=np.float32)
-    B = A.reshape(-1, 64)[:, 1:].reshape(-1, 21, 3)
+    B = A.reshape(-1, 64)[:, 1:].reshape(-1, points_per_fiber, dimensions)
     return B
 
 def maxValues(data):
@@ -45,5 +46,5 @@ def createCenters(amount, data):
         z_float = np.float32(random.uniform(0, ceil))
         centers.append([x_float,y_float,z_float])
 
-    centers = np.reshape(centers, (amount, 3))
+    centers = np.reshape(centers, (amount, dimensions))
     return centers

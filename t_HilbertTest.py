@@ -1,8 +1,8 @@
 import time
 import sys
-from bundleHandler import *
+from handlerBundles import *
 from tester import *
-from queriesHandler import *
+from handlerQueries import *
 
 
 def main():
