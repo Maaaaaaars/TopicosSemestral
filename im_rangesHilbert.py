@@ -24,7 +24,7 @@ def rangesHilbert(dataName, maxFibers, esferas, radio, iterations, iterationPoin
 
     hilbertCenters = sorted(enumerate(hilbertCenters), key=lambda x: x[1]) # Ordenar los centros de las esferas en la curva de hilbert
 
-    bitMatrix = np.zeros((totalFibers, esferas), dtype=int) # Crear la matriz de bits
+    bitMatrix = np.zeros((totalFibers, esferas), dtype=np.int8) # Crear la matriz de bits
 
     tester = Tester(centers, radio, maxCoord(data)) # Crear el tester
 
@@ -39,20 +39,19 @@ def rangesHilbert(dataName, maxFibers, esferas, radio, iterations, iterationPoin
 
 
     start_time = time.process_time()
+
     for k in range (totalFibers): # Para cada fibra
         for i in range (points_per_fiber):
             hilberted = hilbert_curve.distance_from_point(data[k][i]) # Calcular la distancia del punto a la curva de hilbert
             for j in range (len(centers)): # Para cada centro de esfera
                 if(abs(hilbertCenters[j][1] - hilberted) <= ranges[j]): # Si la distancia entre el centro de esfera y el punto es menor o igual al rango del centro de esfera
-                    cFromHilbert = hilbert_curve.point_from_distance(hilbertCenters[j][1]) # Obtener el centro de esfera de la curva de hilbert
+                    cFromHilbert = centers[hilbertCenters[j][0]] # Obtener el centro de esfera de la curva de hilbert
                     distance = np.linalg.norm(np.array(cFromHilbert) - np.array(data[k][i])) # Calcular la distancia entre el centro de esfera y el punto
                     if distance <= radio: # Si la distancia es menor o igual al radio, el punto pertenece a la esfera
                         bitMatrix[k][j] = 1 # Se marca el bit correspondiente a la fibra y el centro de esfera
+
     end_time = time.process_time()
     print('Tiempo rangesHilbert con ' + str(esferas) + ' esferas de radio ' + str(radio) + ': ' + str(end_time - start_time))    
     
-    nombre = "rangesHilbert" + '-' + str(esferas) + '-' + str(radio)+ ".txt"    
-    np.savetxt(nombre, bitMatrix, fmt="%d")
-
     return bitMatrix
     

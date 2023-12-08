@@ -8,29 +8,33 @@ def main():
     random.seed(100)
 
     data = 'sub7.bundlesdata'
-    maxFibers = 500000
+    maxFibers = 100000
     esferas = int(sys.argv[1])
     radio = float(sys.argv[2])
     iterations = int(sys.argv[3])
     iterationPoints = int(sys.argv[4])
 
-    #preciso = exact3D(data, maxFibers, esferas, radio)
-    preciso = np.loadtxt("exact3D-1400-4.txt", dtype=int)
-    print(preciso)
-    ''''
-    print("Exacto terminado")
-    print("")
+    for i in range(4):
+        print('Iteration: ', i)
+        print('-----------------------')
+        for j in range(4):
+            exact = exact3D(data, maxFibers, esferas, radio)
+            ranges = rangesHilbert(data, maxFibers, esferas, radio, iterations, iterationPoints)
 
-    ranges = rangesHilbert(data, maxFibers, esferas, radio, iterations, iterationPoints)
-    print("Ranges terminado")
+            randomFibers = random.sample(range(0, maxFibers), 10)
 
-    randomFiber = random.randint(0, preciso.shape[0] - 1)
-    print("Fibra aleatoria: " + str(randomFiber))
-    print("")
-
-    print(sameSignature(randomFiber, preciso))
-    print("")
-    print(sameSignature(randomFiber, ranges))
-    '''
+            for fiber in randomFibers:
+                verdad = set(sameSignature(exact[fiber], exact))
+                estimador = set(sameSignature(ranges[fiber], ranges))
+                intersection = verdad & estimador
+                truePositives = len(intersection)
+                falsePositives = len(estimador) - truePositives
+                falseNegatives = len(verdad) - truePositives
+                precision = truePositives / (truePositives + falsePositives)
+                recall = truePositives / (truePositives + falseNegatives)
+                print(precision, recall)
+                print('')
+        print('-----------------------')
+        maxFibers = maxFibers + 100000
 
 main()

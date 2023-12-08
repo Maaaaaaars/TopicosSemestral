@@ -22,7 +22,4 @@ def exact3D(dataName, maxFibers, esferas, radio):
     end_time = time.process_time()
     print('Tiempo exact3D con ' + str(esferas) + ' esferas de radio ' + str(radio) + ': ' + str(end_time - start_time))
     
-    nombre = "exact3D" + '-' + str(esferas) + '-' + str(radio) + ".txt"
-    np.savetxt(nombre, bitMatrix, fmt="%d")
-
     return bitMatrix

@@ -10,3 +10,12 @@ Proyecto semestral de la asignatura Tópicos en Manejo de Grandes Vólumenes de 
     4200 radio 6
 
 
+100k - 200k - 300k - 400k 
+7000 radio 4
+7000 radio 5
+7000 radio 6
+
+
+
+
+
