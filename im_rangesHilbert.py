@@ -18,16 +18,12 @@ def rangesHilbert(dataName, maxFibers, esferas, radio, iterations, iterationPoin
     
     hilbert_curve = HilbertCurve(p, 3) # Crear la curva de hilbert
 
-    hilbertCenters = [] # Lista de los centros de las esferas en la curva de hilbert
+    centersHilbert = [] # Lista de los centros de las esferas en la curva de hilbert
     for i in range(esferas):
-        hilbertCenters.append(hilbert_curve.distance_from_point(centers[i])) # Calcular la distancia de cada centro a la curva de hilbert
-
-    hilbertCenters = sorted(enumerate(hilbertCenters), key=lambda x: x[1]) # Ordenar los centros de las esferas en la curva de hilbert
-
-    bitMatrix = np.zeros((totalFibers, esferas), dtype=np.int8) # Crear la matriz de bits
+        centersHilbert.append(hilbert_curve.distance_from_point(centers[i])) # Calcular la distancia de cada centro a la curva de hilbert
+    centersHilbert = np.array(centersHilbert)
 
     tester = Tester(centers, radio, maxCoord(data)) # Crear el tester
-
     ranges = [] # Lista de los rangos de cada centro de esfera
     for i in range(esferas): # Para cada centro de esfera
         average = 0 # Promedio de las distancias de los puntos al centro de esfera
@@ -37,20 +33,24 @@ def rangesHilbert(dataName, maxFibers, esferas, radio, iterations, iterationPoin
         average = average / iterations # Se calcula el promedio de las distancias de los puntos al centro de esfera
         ranges.append(average) # Se agrega el promedio a la lista de rangos
 
+    dataHilbert = [] # List of the points of the bundles on the Hilbert curve
+    for i in range(totalFibers): # For each fiber
+        fiber_data = [] # Create a new list for this fiber
+        for j in range(points_per_fiber):
+            fiber_data.append(hilbert_curve.distance_from_point(data[i][j])) # Calculate the distance of each point to the Hilbert curve
+        dataHilbert.append(fiber_data) # Append the list of distances for this fiber to dataHilbert
+
+    bitMatrix = np.zeros((totalFibers, esferas), dtype=np.int8) # Crear la matriz de bits
 
     start_time = time.process_time()
-
-    for k in range (totalFibers): # Para cada fibra
-        for i in range (points_per_fiber):
-            hilberted = hilbert_curve.distance_from_point(data[k][i]) # Calcular la distancia del punto a la curva de hilbert
-            for j in range (len(centers)): # Para cada centro de esfera
-                if(abs(hilbertCenters[j][1] - hilberted) <= ranges[j]): # Si la distancia entre el centro de esfera y el punto es menor o igual al rango del centro de esfera
-                    cFromHilbert = centers[hilbertCenters[j][0]] # Obtener el centro de esfera de la curva de hilbert
-                    distance = np.linalg.norm(np.array(cFromHilbert) - np.array(data[k][i])) # Calcular la distancia entre el centro de esfera y el punto
-                    if distance <= radio: # Si la distancia es menor o igual al radio, el punto pertenece a la esfera
-                        bitMatrix[k][j] = 1 # Se marca el bit correspondiente a la fibra y el centro de esfera
-
+    for k in range(totalFibers): # Para cada fibra
+        for i in range(points_per_fiber): # Para cada punto de la fibra
+            point = dataHilbert[k][i] # Obtener el punto
+            distances = centersHilbert - point # Calcular la distancia entre el punto y cada centro de esfera
+            within_range = distances <= ranges # Obtener los centros de esfera que estan dentro del radio
+            bitMatrix[k][within_range] = 1 # Se marcan los bits correspondientes a la fibra y los centros de esfera dentro del radio
     end_time = time.process_time()
+
     print('Tiempo rangesHilbert con ' + str(esferas) + ' esferas de radio ' + str(radio) + ': ' + str(end_time - start_time))    
     
     return bitMatrix
